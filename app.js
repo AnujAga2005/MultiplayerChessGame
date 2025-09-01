@@ -4,13 +4,11 @@ const http = require("http");
 const { Chess } = require("chess.js");
 const path = require("path");
 const { log } = require("console");
-
 const app = express();
-
 const server = http.createServer(app);
 const io = socket(server);
-
 const chess = new Chess();
+
 let players = {};
 let currentPlayer = "w";
 
@@ -22,14 +20,6 @@ app.get("/", (req,res) => {
 });
 
 io.on("connection", function(uniqueSocket){
-    console.log("A user connected: " + uniqueSocket.id);
-    // uniqueSocket.on("disconnect",function(){
-    //     console.log("A user disconnected: " + uniqueSocket.id);
-    // })
-    // uniqueSocket.on("churan", function(){
-    //     io.emit("churan paapdi");
-    // })
-
     if(!players.white){
         players.white = uniqueSocket.id;
         uniqueSocket.emit("playerRole", "w");
@@ -52,7 +42,6 @@ io.on("connection", function(uniqueSocket){
         try{
             if(chess.turn() === 'w' && uniqueSocket.id !== players.white) return;
             if(chess.turn() === 'b' && uniqueSocket.id !== players.black) return;
-
             const result = chess.move(move);
             if(result){
                 currentPlayer = chess.turn();

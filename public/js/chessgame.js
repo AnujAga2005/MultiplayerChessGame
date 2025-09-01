@@ -1,5 +1,3 @@
-
-
 const socket = io();
 const chess = new Chess();
 const boardElement = document.querySelector(".chessboard");
@@ -72,7 +70,6 @@ const handleMove = (source, target) => {
         from: `${String.fromCharCode(97+source.col)}${8-source.row}`,
         to: `${String.fromCharCode(97+target.col)}${8-target.row}`,
         promotion: 'q',
-        
     };
     socket.emit("move",move);
 };
@@ -96,10 +93,6 @@ const getPieceUnicode = (piece) => {
     return unicodePieces[piece.type] || "";
 };
 
-// socket.emit("churan")
-// socket.on("churan paapdi", function(){
-//     console.log("Churan paapdi received from server");
-// })
 socket.on("playerRole",function(role){
     playerRole = role;
     renderBoard();
@@ -120,4 +113,3 @@ socket.on("move",function(fen){
     renderBoard();
 })
 renderBoard();
-
